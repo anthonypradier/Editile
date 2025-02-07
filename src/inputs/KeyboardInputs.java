@@ -2,6 +2,7 @@ package inputs;
 
 import comps.CanvasPanel;
 import comps.PropertiesPanel;
+import comps.RightPanel;
 import main.App;
 import main.AppPanel;
 
@@ -30,8 +31,8 @@ public class KeyboardInputs implements KeyListener {
         JPanel focusedPanel = this.appPanel.getFocusedElement();
         if(focusedPanel == this.appPanel.getCanvasPanel()) {
             ((CanvasPanel)focusedPanel).keyPressed(e);
-        } else if(focusedPanel == this.appPanel.getPropertiesPanel()) {
-            ((PropertiesPanel)focusedPanel).keyPressed(e);
+        } else if(focusedPanel == this.appPanel.getRightPanel()) {
+            ((RightPanel)focusedPanel).keyPressed(e);
         }
         this.appPanel.repaint();
     }

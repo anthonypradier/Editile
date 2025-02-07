@@ -186,7 +186,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                 break;
             case KeyEvent.VK_N:
                 this.createMap();
-                this.app.getAppPanel().getPropertiesPanel().initProperties();
+                this.app.getAppPanel().getRightPanel().getPropertiesPanel().initProperties();
                 break;
         }
     }

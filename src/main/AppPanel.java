@@ -2,6 +2,7 @@ package main;
 
 import comps.CanvasPanel;
 import comps.PropertiesPanel;
+import comps.RightPanel;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 
@@ -11,7 +12,7 @@ import java.awt.*;
 public class AppPanel extends JPanel {
     private App app;
     private CanvasPanel canvasPanel;
-    private PropertiesPanel propertiesPanel;
+    private RightPanel rightPanel;
     private MouseInputs mouseInputs;
     private KeyboardInputs keyboardInputs;
     private JPanel focusedElement;
@@ -30,7 +31,7 @@ public class AppPanel extends JPanel {
 
     private void initClasses() {
         this.canvasPanel = new CanvasPanel(this.app);
-        this.propertiesPanel = new PropertiesPanel(this.app);
+        this.rightPanel = new RightPanel(this.app);
         this.mouseInputs = new MouseInputs(this);
         this.keyboardInputs = new KeyboardInputs(this);
     }
@@ -38,7 +39,7 @@ public class AppPanel extends JPanel {
     private void build() {
         this.setLayout(new BorderLayout());
         this.add(this.canvasPanel, BorderLayout.CENTER);
-        this.add(this.propertiesPanel, BorderLayout.EAST);
+        this.add(this.rightPanel, BorderLayout.EAST);
         this.addMouseListener(this.mouseInputs);
         this.addMouseMotionListener(this.mouseInputs);
         this.addKeyListener(this.keyboardInputs);
@@ -48,7 +49,7 @@ public class AppPanel extends JPanel {
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         this.canvasPanel.repaint();
-        this.propertiesPanel.repaint();
+        this.rightPanel.repaint();
     }
 
     public JPanel getFocusedElement() {
@@ -64,7 +65,7 @@ public class AppPanel extends JPanel {
         return this.canvasPanel;
     }
 
-    public PropertiesPanel getPropertiesPanel() {
-        return this.propertiesPanel;
+    public RightPanel getRightPanel () {
+        return this.rightPanel;
     }
 }

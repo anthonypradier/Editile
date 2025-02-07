@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import comps.PropertiesPanel;
+import comps.RightPanel;
 import main.App;
 import comps.CanvasPanel;
 import main.AppPanel;
@@ -25,8 +26,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
         if(comp == this.appPanel.getCanvasPanel()) {
             ((CanvasPanel) comp).mouseClicked(e);
-        } else if(comp == this.appPanel.getPropertiesPanel()) {
-            ((PropertiesPanel) comp).mouseClicked(e);
+        } else if(comp == this.appPanel.getRightPanel()) {
+            ((RightPanel) comp).mouseClicked(e);
         }
         this.appPanel.repaint();
     }
@@ -37,8 +38,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         this.appPanel.setFocusedElement((JPanel)comp);
         if(comp == this.appPanel.getCanvasPanel()) {
             ((CanvasPanel) comp).mousePressed(e);
-        } else if(comp == this.appPanel.getPropertiesPanel()) {
-            ((PropertiesPanel) comp).mousePressed(e);
+        } else if(comp == this.appPanel.getRightPanel()) {
+            ((RightPanel) comp).mousePressed(e);
         }
         this.appPanel.repaint();
     }
@@ -48,8 +49,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         Component comp = SwingUtilities.getDeepestComponentAt(this.appPanel, e.getX(), e.getY());
         if(comp == this.appPanel.getCanvasPanel()) {
             ((CanvasPanel) comp).mouseReleased(e);
-        } else if(comp == this.appPanel.getPropertiesPanel()) {
-            ((PropertiesPanel) comp).mouseReleased(e);
+        } else if(comp == this.appPanel.getRightPanel()) {
+            ((RightPanel) comp).mouseReleased(e);
         }
         this.appPanel.repaint();
     }
@@ -69,8 +70,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         Component comp = SwingUtilities.getDeepestComponentAt(this.appPanel, e.getX(), e.getY());
         if(comp == this.appPanel.getCanvasPanel()) {
             ((CanvasPanel) comp).mouseDragged(e);
-        } else if(comp == this.appPanel.getPropertiesPanel()) {
-            ((PropertiesPanel) comp).mouseDragged(e);
+        } else if(comp == this.appPanel.getRightPanel()) {
+            ((RightPanel) comp).mouseDragged(e);
         }
         this.appPanel.repaint();
     }
