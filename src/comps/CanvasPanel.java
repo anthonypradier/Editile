@@ -20,13 +20,16 @@ public class CanvasPanel extends JPanel implements InputsMethods {
     private int lastButtonPressed = 0;
 
     private HashMap<Integer, Color> tileTypes;
+    private HashMap<Color, Integer> nbOfType;
     private int tileValue = 1;
 
     public CanvasPanel(final App app) {
         super();
         this.app = app;
         this.tileTypes = new HashMap<Integer, Color>();
+        this.nbOfType = new HashMap<Color, Integer>();
         this.setupTiles();
+        this.resetNbOfType();
         this.currentColor = Color.red;
         this.build();
 
@@ -52,6 +55,12 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         this.tileTypes.put(1, Color.red);
         this.tileTypes.put(2, Color.blue);
         this.tileTypes.put(3, Color.green);
+    }
+
+    private void resetNbOfType() {
+        this.nbOfType.put(this.tileTypes.get(1), 0);
+        this.nbOfType.put(this.tileTypes.get(2), 0);
+        this.nbOfType.put(this.tileTypes.get(3), 0);
     }
 
     public void createMap() {
@@ -107,19 +116,36 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         }
     }
 
+    public void addTile(final int x, final int y) {
+        if(this.tileMap.getTile(x, y) != this.tileValue) {
+            this.tileMap.setTile(this.tileValue, x, y);
+            this.nbOfType.replace(this.tileTypes.get(this.tileValue), this.nbOfType.get(this.tileTypes.get(this.tileValue)) + 1);
+        }
+    }
+
+    public void removeTile(final int x, final int y) {
+        if(this.tileMap.getTile(x, y) != 0) {
+            if(this.nbOfType.get(this.tileTypes.get(this.tileValue)) - 1 >= 0) {
+                this.nbOfType.replace(this.tileTypes.get(this.tileMap.getTile(x, y)), this.nbOfType.get(this.tileTypes.get(this.tileMap.getTile(x, y))) - 1);
+            }
+            this.tileMap.eraseTile(x, y);
+        }
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println("canvas clicked");
+        this.app.getAppPanel().getRightPanel().getPropertiesPanel().incrementID();
         if(this.tileMap != null) {
             int xPos = e.getX() / App.TILE_SIZE;
             int yPos = e.getY() / App.TILE_SIZE;
 
             switch (e.getButton()) {
                 case MouseEvent.BUTTON1:
-                    this.tileMap.setTile(this.tileValue, xPos, yPos);
+                    this.addTile(xPos, yPos);
                     break;
                 case MouseEvent.BUTTON3:
-                    this.tileMap.eraseTile(xPos, yPos);
+                    this.removeTile(xPos, yPos);
                     break;
             }
 
@@ -149,10 +175,10 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 
             switch (this.lastButtonPressed) {
                 case MouseEvent.BUTTON1:
-                    this.tileMap.setTile(this.tileValue, xPos, yPos);
+                    this.addTile(xPos, yPos);
                     break;
                 case MouseEvent.BUTTON3:
-                    this.tileMap.eraseTile(xPos, yPos);
+                    this.removeTile(xPos, yPos);
                     break;
             }
         }
@@ -167,6 +193,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                     System.out.println("No map to clear");
                 } else {
                     this.clearMap();
+                    this.resetNbOfType();
                 }
                 break;
             case KeyEvent.VK_1:
@@ -186,7 +213,11 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                 break;
             case KeyEvent.VK_N:
                 this.createMap();
+                this.resetNbOfType();
                 this.app.getAppPanel().getRightPanel().getPropertiesPanel().initProperties();
+                break;
+            case KeyEvent.VK_H:
+                System.out.println(this.nbOfType.toString());
                 break;
         }
     }
