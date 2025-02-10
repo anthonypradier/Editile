@@ -218,6 +218,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                 break;
             case KeyEvent.VK_H:
                 System.out.println(this.nbOfType.toString());
+                this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuItemsValues();
                 break;
         }
     }
@@ -237,6 +238,14 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 
     public TileMap getTileMap() {
         return this.tileMap;
+    }
+
+    public HashMap<Integer, Color> getTileTypes() {
+        return this.tileTypes;
+    }
+
+    public HashMap<Color, Integer> getNbOfTypes() {
+        return this.nbOfType;
     }
 
     public boolean isPenPressed() {

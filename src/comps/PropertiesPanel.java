@@ -7,6 +7,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 public class PropertiesPanel extends JPanel implements InputsMethods {
@@ -49,35 +50,79 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
         GridLayout propsGrid = new GridLayout(2, 2);
         this.props.setLayout(propsGrid);
 
-        this.props.add("size Label", this.sizeLabel);
-        this.props.add("size values", this.size);
-        this.props.add("tiles label", this.tilesLabel);
-        this.buildTilesMenu();
-    }
-
-    private void buildTilesMenu() {
         JPanel tilesDetailsPanel = new JPanel();
         this.tilesDetailsMenuBar = new JMenuBar();
         this.tilesDetailsMenu = new JMenu("Details");
 
-        JMenuItem item = new JMenuItem("Menu item " + this.itemId);
-        BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB); // créer une icone pour les JMenuItem
-        Graphics2D g2 = image.createGraphics();
-        g2.setColor(Color.red);
-        g2.fillRect(0, 0, 10, 10);
-        g2.dispose();
-
-        item.setIcon(new ImageIcon(image));
-
-        this.tilesDetailsMenu.add(item);
+        this.props.add("size Label", this.sizeLabel);
+        this.props.add("size values", this.size);
+        this.props.add("tiles label", this.tilesLabel);
 
         this.tilesDetailsMenuBar.add(this.tilesDetailsMenu);
         tilesDetailsPanel.add(this.tilesDetailsMenuBar);
         this.props.add("tiles value", tilesDetailsPanel);
+//        this.buildTilesMenu();
+    }
+
+    private void buildTilesMenu() {
+
+        for(Integer i : this.app.getAppPanel().getCanvasPanel().getTileTypes().keySet()) {
+            int iconSize = 15;
+            Color c = this.app.getAppPanel().getCanvasPanel().getTileTypes().get(i);
+            JMenuItem item = new JMenuItem(i + " ::: " + this.app.getAppPanel().getCanvasPanel().getNbOfTypes().get(c));
+            BufferedImage image = new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB); // créer une icone pour les JMenuItem
+
+            Graphics2D g2 = image.createGraphics();
+            g2.setColor(c);
+            g2.fillRect(0, 0, iconSize, iconSize);
+            g2.dispose();
+
+            item.setIcon(new ImageIcon(image));
+
+            this.tilesDetailsMenu.add(item, i-1);
+        }
+
+        this.tilesDetailsMenuBar.add(this.tilesDetailsMenu);
+        this.tilesDetailsMenuBar.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+//                this.updateTilesValue();
+                System.out.println("Menu clicked");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 
     public void initProperties() {
+        this.buildTilesMenu();
         this.updatesValues();
+    }
+
+    public void updateMenuItemsValues() {
+        for(Integer i : this.app.getAppPanel().getCanvasPanel().getTileTypes().keySet()) {
+            Color c = this.app.getAppPanel().getCanvasPanel().getTileTypes().get(i);
+            JMenuItem item = this.tilesDetailsMenu.getItem(i-1);
+            item.setText(i + " ::: " + this.app.getAppPanel().getCanvasPanel().getNbOfTypes().get(c));
+        }
     }
 
     public void updatesValues() {
