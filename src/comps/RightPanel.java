@@ -16,6 +16,9 @@ public class RightPanel extends JPanel implements InputsMethods {
     public RightPanel(final App app) {
         super();
         this.app = app;
+    }
+
+    public void init() {
         this.build();
     }
 

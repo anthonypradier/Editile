@@ -36,6 +36,19 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         System.out.println("CanvasPanel created");
     }
 
+    public void init() {
+        this.setupTiles();
+        this.resetNbOfType();
+        this.currentColor = Color.red;
+        this.build();
+
+        this.createMap();
+        this.resetNbOfType();
+//        this.app.getAppPanel().getRightPanel().getPropertiesPanel().initProperties();
+
+        System.out.println("CanvasPanel created");
+    }
+
     private void build() {
         Dimension dim = new Dimension(this.nbTileWidth * App.TILE_SIZE, this.nbTileHeight * App.TILE_SIZE);
         this.setMinimumSize(dim);
@@ -134,8 +147,6 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("canvas clicked");
-        this.app.getAppPanel().getRightPanel().getPropertiesPanel().incrementID();
         if(this.tileMap != null) {
             int xPos = e.getX() / App.TILE_SIZE;
             int yPos = e.getY() / App.TILE_SIZE;
@@ -159,7 +170,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuBars();
     }
 
     @Override
@@ -194,6 +205,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                 } else {
                     this.clearMap();
                     this.resetNbOfType();
+                    this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuBars();
                 }
                 break;
             case KeyEvent.VK_1:
@@ -215,10 +227,11 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                 this.createMap();
                 this.resetNbOfType();
                 this.app.getAppPanel().getRightPanel().getPropertiesPanel().initProperties();
+                this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuBars();
                 break;
             case KeyEvent.VK_H:
                 System.out.println(this.nbOfType.toString());
-                this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuItemsValues();
+                this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuBars();
                 break;
         }
     }

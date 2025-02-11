@@ -22,7 +22,9 @@ public class AppPanel extends JPanel {
         this.app = app;
         this.setFocusable(true);
         this.requestFocusInWindow();
+    }
 
+    public void init() {
         this.initClasses();
         this.build();
         this.focusedElement = this.canvasPanel;

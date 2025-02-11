@@ -5,10 +5,9 @@ import main.App;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class PropertiesPanel extends JPanel implements InputsMethods {
     private App app;
@@ -17,15 +16,19 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
     private JLabel size = new JLabel("X: " + this.nbTW + "  Y: " + this.nbTH);
     private JPanel props;
     private JLabel sizeLabel = new JLabel("Size: "), tilesLabel = new JLabel("Tiles: ");
-    private JMenuBar tilesDetailsMenuBar;
-    private JMenu tilesDetailsMenu;
-    private int itemId = 1;
+    private PropsMenuBar tilesMenuBar;
+    private ArrayList<PropsMenuBar> propsMenuBars;
 
     public PropertiesPanel(final App app) {
         super();
         this.app = app;
+        this.propsMenuBars = new ArrayList<PropsMenuBar>();
 
+    }
+
+    public void init() {
         this.build();
+        this.initProperties();
 
         System.out.println("PropertiesPanel created");
     }
@@ -51,86 +54,25 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
         this.props.setLayout(propsGrid);
 
         JPanel tilesDetailsPanel = new JPanel();
-        this.tilesDetailsMenuBar = new JMenuBar();
-        this.tilesDetailsMenu = new JMenu("Details");
+        this.buildTilesMenus();
 
         this.props.add("size Label", this.sizeLabel);
         this.props.add("size values", this.size);
-        this.props.add("tiles label", this.tilesLabel);
 
-        this.tilesDetailsMenuBar.add(this.tilesDetailsMenu);
-        tilesDetailsPanel.add(this.tilesDetailsMenuBar);
+        this.props.add("tiles label", this.tilesLabel);
+        tilesDetailsPanel.add(this.tilesMenuBar);
         this.props.add("tiles value", tilesDetailsPanel);
-//        this.buildTilesMenu();
     }
 
-    private void buildTilesMenu() {
-
-        for(Integer i : this.app.getAppPanel().getCanvasPanel().getTileTypes().keySet()) {
-            int iconSize = 15;
-            Color c = this.app.getAppPanel().getCanvasPanel().getTileTypes().get(i);
-            JMenuItem item = new JMenuItem(i + " ::: " + this.app.getAppPanel().getCanvasPanel().getNbOfTypes().get(c));
-            BufferedImage image = new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB); // créer une icone pour les JMenuItem
-
-            Graphics2D g2 = image.createGraphics();
-            g2.setColor(c);
-            g2.fillRect(0, 0, iconSize, iconSize);
-            g2.dispose();
-
-            item.setIcon(new ImageIcon(image));
-
-            this.tilesDetailsMenu.add(item, i-1);
-        }
-
-        this.tilesDetailsMenuBar.add(this.tilesDetailsMenu);
-        this.tilesDetailsMenuBar.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-//                this.updateTilesValue();
-                System.out.println("Menu clicked");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
+    private void buildTilesMenus() {
+        this.tilesMenuBar = new PropsMenuBar(this.app, "Details", "tiles");
+        this.tilesMenuBar.initMenuBar(this.app.getAppPanel().getCanvasPanel().getTileTypes());
     }
 
     public void initProperties() {
-        this.buildTilesMenu();
-        this.updatesValues();
+        this.buildTilesMenus();
     }
 
-    public void updateMenuItemsValues() {
-        for(Integer i : this.app.getAppPanel().getCanvasPanel().getTileTypes().keySet()) {
-            Color c = this.app.getAppPanel().getCanvasPanel().getTileTypes().get(i);
-            JMenuItem item = this.tilesDetailsMenu.getItem(i-1);
-            item.setText(i + " ::: " + this.app.getAppPanel().getCanvasPanel().getNbOfTypes().get(c));
-        }
-    }
-
-    public void updatesValues() {
-        this.nbTW = this.app.getAppPanel().getCanvasPanel().getNbTileWidth();
-        this.nbTH = this.app.getAppPanel().getCanvasPanel().getNbTileHeight();
-        System.out.println(this.nbTW + " | " + this.nbTH);
-        this.size.setText("X: " + this.nbTW + "  Y: " + this.nbTH);
-    }
 
     @Override
     public void paintComponent(final Graphics g) {
@@ -138,11 +80,6 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
         if(this.app.getAppPanel().getCanvasPanel().getTileMap() != null) {
 //            this.draw(g);
         }
-    }
-
-    public void incrementID() {
-        this.itemId++;
-        this.tilesDetailsMenu.getItem(0).setText("MenuItem " + this.itemId);
     }
 
     private void draw(final Graphics g) {
@@ -185,5 +122,18 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public void addPropsMenuBar(final PropsMenuBar m) {
+        this.propsMenuBars.add(m);
+    }
+
+    public void updateMenuBars() {
+        // HashMap de HashMap <String, HashMap> pour récupérer la HashMap correspondante au nom du PropsMenuBar
+        // ou une arrayList de hashMap, mais peu pratique pour passer une hashMap spécifique en paramètre
+        for(PropsMenuBar m : this.propsMenuBars) {
+            m.updateMenuBar(this.app.getAppPanel().getCanvasPanel().getTileTypes());
+        }
+        System.out.println("Menu updated");
     }
 }

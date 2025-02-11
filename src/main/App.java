@@ -6,7 +6,6 @@ import java.awt.*;
 
 public class App {
     private Window window;
-    private CanvasPanel canvas;
     private AppPanel appPanel;
     public static final int TILE_SIZE = 32;
     public static float SCALE = 1f;
@@ -19,6 +18,10 @@ public class App {
 
     private void initClasses() {
         this.appPanel = new AppPanel(this);
+        this.appPanel.init();
+        this.appPanel.getCanvasPanel().init();
+        this.appPanel.getRightPanel().init();
+        this.appPanel.getRightPanel().getPropertiesPanel().init();
         this.window = new Window(this.appPanel);
     }
 
@@ -30,7 +33,4 @@ public class App {
         return this.appPanel;
     }
 
-    public CanvasPanel getCanvas() {
-        return this.canvas;
-    }
 }
