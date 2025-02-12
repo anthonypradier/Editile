@@ -14,6 +14,7 @@ import static utilz.Constants.Properties.ICON_SIZE;
 public class PropsMenuBar extends JMenuBar implements ActionListener {
     private App app;
     private JMenu detailsMenu;
+    // Mettre en parametre la tiletype HashMap pour optimiser (évitrer de chercher à chaque update la hashMap)
 
     public PropsMenuBar(final App app, final String text, final String name) {
         super();
@@ -25,6 +26,10 @@ public class PropsMenuBar extends JMenuBar implements ActionListener {
         this.app.getAppPanel().getRightPanel().getPropertiesPanel().addPropsMenuBar(this);
     }
 
+    /**
+     * Initialize the PropsMenuBar with the given HashMap parameter. It creates an icon for each tile based on the image stored in the HashMap
+     * @param tilesType an HashMap which contains the different tiles or entity
+     */
     public void initMenuBar(final HashMap<Integer, Color> tilesType) {
         for(Integer i : tilesType.keySet()) {
             int iconSize = ICON_SIZE;
@@ -48,14 +53,23 @@ public class PropsMenuBar extends JMenuBar implements ActionListener {
         System.out.println("Menu clicked");
     }
 
+    /**
+     *
+     * @return The Menu of the PropsMenuBar
+     */
     public JMenu getMenu() {
         return this.detailsMenu;
     }
+
 
     public void addItem(final JMenuItem item, final int index) {
         this.add(item, index);
     }
 
+    /**
+     * Update the MenuItems of the PropsMenuBar. It changes only the text based on the number of each tiles in the HashMap
+     * @param tilesType
+     */
     public void updateMenuBar(final HashMap<Integer, Color> tilesType) {
         for(Integer i : tilesType.keySet()) {
             Color c = this.app.getAppPanel().getCanvasPanel().getTileTypes().get(i);

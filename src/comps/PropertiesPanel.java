@@ -26,6 +26,9 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
 
     }
 
+    /**
+     * Initialize the propertiesPanel
+     */
     public void init() {
         this.build();
         this.initProperties();
@@ -33,6 +36,9 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
         System.out.println("PropertiesPanel created");
     }
 
+    /**
+     * Build the propertiesPanel
+     */
     private void build() {
 //        Dimension dim = new Dimension(200, 200);
 //        this.setMaximumSize(dim);
@@ -48,6 +54,9 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
         this.add(this.props, BorderLayout.CENTER);
     }
 
+    /**
+     * Build the panel which contains the properties
+     */
     private void buildProps() {
         this.props = new JPanel();
         GridLayout propsGrid = new GridLayout(2, 2);
@@ -64,13 +73,30 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
         this.props.add("tiles value", tilesDetailsPanel);
     }
 
+    /**
+     * Create and initialize all the menus of the propertiesPanel, one by one
+     */
     private void buildTilesMenus() {
         this.tilesMenuBar = new PropsMenuBar(this.app, "Details", "tiles");
         this.tilesMenuBar.initMenuBar(this.app.getAppPanel().getCanvasPanel().getTileTypes());
     }
 
+    /**
+     * Initialize the properties
+     */
     public void initProperties() {
+        this.updateMapSize();
         this.buildTilesMenus();
+    }
+
+    /**
+     * Update the values of the map's size
+     */
+    public void updateMapSize() {
+        this.nbTH = this.app.getAppPanel().getCanvasPanel().getNbTileHeight();
+        this.nbTW = this.app.getAppPanel().getCanvasPanel().getNbTileWidth();
+
+        this.size.setText("X: " + this.nbTW + "  Y: " + this.nbTH);
     }
 
 
@@ -124,10 +150,17 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
 
     }
 
+    /**
+     * This method should be used only in the PropsMenuBar class. When a propsMenuBar is created, it is automatically added in the ArrayList
+     * @param m a PropsMenuBar
+     */
     public void addPropsMenuBar(final PropsMenuBar m) {
         this.propsMenuBars.add(m);
     }
 
+    /**
+     * Update the values of all the propsMenuBars
+     */
     public void updateMenuBars() {
         // HashMap de HashMap <String, HashMap> pour récupérer la HashMap correspondante au nom du PropsMenuBar
         // ou une arrayList de hashMap, mais peu pratique pour passer une hashMap spécifique en paramètre

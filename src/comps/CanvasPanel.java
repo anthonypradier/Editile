@@ -36,6 +36,9 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         System.out.println("CanvasPanel created");
     }
 
+    /**
+     * Initialize the CanvasPanel. Used to avoid errors when creating classes
+     */
     public void init() {
         this.setupTiles();
         this.resetNbOfType();
@@ -49,6 +52,9 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         System.out.println("CanvasPanel created");
     }
 
+    /**
+     * Build the CanvasPanel
+     */
     private void build() {
         Dimension dim = new Dimension(this.nbTileWidth * App.TILE_SIZE, this.nbTileHeight * App.TILE_SIZE);
         this.setMinimumSize(dim);
@@ -64,23 +70,35 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 //        this.keyboardInputs = new KeyboardInputs(this.app.getAppPanel());
     }
 
+    /**
+     * Set up the HashMap which contains the tiles
+     */
     private void setupTiles() {
         this.tileTypes.put(1, Color.red);
         this.tileTypes.put(2, Color.blue);
         this.tileTypes.put(3, Color.green);
     }
 
+    /**
+     * Reset the number of each tiles in the current HashMap
+     */
     private void resetNbOfType() {
         this.nbOfType.put(this.tileTypes.get(1), 0);
         this.nbOfType.put(this.tileTypes.get(2), 0);
         this.nbOfType.put(this.tileTypes.get(3), 0);
     }
 
+    /**
+     * Create the map
+     */
     public void createMap() {
         this.tileMap = new TileMap(this.app);
         System.out.println("Map created");
     }
 
+    /**
+     * Cleat the map
+     */
     public void clearMap() {
         this.tileMap.clearMap();
     }
@@ -91,6 +109,10 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         this.draw(g);
     }
 
+    /**
+     * Draw the component only if there is a map stored in the attribute tileMap
+     * @param g the general graphics
+     */
     public void draw(final Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
 
@@ -100,6 +122,10 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         }
     }
 
+    /**
+     * Draw the grid depending on the current tile size and the scale
+     * @param g2
+     */
     private void drawGrid(final Graphics2D g2) {
         g2.setStroke(new BasicStroke(1));
         g2.setColor(Color.gray);
