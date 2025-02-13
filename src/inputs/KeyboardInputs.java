@@ -1,9 +1,7 @@
 package inputs;
 
-import comps.CanvasPanel;
-import comps.PropertiesPanel;
-import comps.RightPanel;
-import main.App;
+import panels.CanvasPanel;
+import panels.RightPanel;
 import main.AppPanel;
 
 import javax.swing.*;

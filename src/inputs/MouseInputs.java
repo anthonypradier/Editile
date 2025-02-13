@@ -5,10 +5,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import comps.PropertiesPanel;
-import comps.RightPanel;
-import main.App;
-import comps.CanvasPanel;
+import panels.RightPanel;
+import panels.CanvasPanel;
 import main.AppPanel;
 
 import javax.swing.*;

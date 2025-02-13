@@ -1,8 +1,7 @@
 package main;
 
-import comps.CanvasPanel;
-import comps.PropertiesPanel;
-import comps.RightPanel;
+import panels.CanvasPanel;
+import panels.RightPanel;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 

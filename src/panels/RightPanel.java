@@ -1,5 +1,6 @@
-package comps;
+package panels;
 
+import comps.InputsMethods;
 import main.App;
 
 import javax.swing.*;
