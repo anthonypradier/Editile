@@ -20,7 +20,7 @@ public class TileMap {
     }
 
     public void newMap() {
-        this.map = new int[this.app.getAppPanel().getCanvasPanel().getNbTileWidth()][this.app.getAppPanel().getCanvasPanel().getNbTileHeight()];
+        this.map = new int[this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getNbTileWidth()][this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getNbTileHeight()];
     }
 
     public void setTile(final int tileType, final int x, final int y) {

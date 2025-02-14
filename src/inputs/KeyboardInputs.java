@@ -15,7 +15,7 @@ public class KeyboardInputs implements KeyListener {
     public KeyboardInputs(final AppPanel panel) {
         this.appPanel = panel;
         System.out.println(this.appPanel);
-        System.out.println(this.appPanel.getCanvasPanel());
+        System.out.println(this.appPanel.getMiddlePanel().getCanvasPanel());
         Component focusedComponent = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
         System.out.println(focusedComponent);
     }
@@ -27,7 +27,7 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         JPanel focusedPanel = this.appPanel.getFocusedElement();
-        if(focusedPanel == this.appPanel.getCanvasPanel()) {
+        if(focusedPanel == this.appPanel.getMiddlePanel().getCanvasPanel()) {
             ((CanvasPanel)focusedPanel).keyPressed(e);
         } else if(focusedPanel == this.appPanel.getRightPanel()) {
             ((RightPanel)focusedPanel).keyPressed(e);

@@ -80,7 +80,7 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
      */
     private void buildTilesMenus() {
         this.tilesMenuBar = new PropsMenuBar(this.app, "Details", "tiles");
-        this.tilesMenuBar.initMenuBar(this.app.getAppPanel().getCanvasPanel().getTileTypes());
+        this.tilesMenuBar.initMenuBar(this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getTileTypes());
     }
 
     /**
@@ -95,8 +95,8 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
      * Update the values of the map's size
      */
     public void updateMapSize() {
-        this.nbTH = this.app.getAppPanel().getCanvasPanel().getNbTileHeight();
-        this.nbTW = this.app.getAppPanel().getCanvasPanel().getNbTileWidth();
+        this.nbTH = this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getNbTileHeight();
+        this.nbTW = this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getNbTileWidth();
 
         this.size.setText("X: " + this.nbTW + "  Y: " + this.nbTH);
     }
@@ -105,7 +105,7 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
     @Override
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        if(this.app.getAppPanel().getCanvasPanel().getTileMap() != null) {
+        if(this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getTileMap() != null) {
 //            this.draw(g);
         }
     }
@@ -167,7 +167,7 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
         // HashMap de HashMap <String, HashMap> pour récupérer la HashMap correspondante au nom du PropsMenuBar
         // ou une arrayList de hashMap, mais peu pratique pour passer une hashMap spécifique en paramètre
         for(PropsMenuBar m : this.propsMenuBars) {
-            m.updateMenuBar(this.app.getAppPanel().getCanvasPanel().getTileTypes());
+            m.updateMenuBar(this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getTileTypes());
         }
         System.out.println("Menu updated");
     }

@@ -22,7 +22,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
         Component comp = SwingUtilities.getDeepestComponentAt(this.appPanel, e.getX(), e.getY());
 
-        if(comp == this.appPanel.getCanvasPanel()) {
+        if(comp == this.appPanel.getMiddlePanel().getCanvasPanel()) {
             ((CanvasPanel) comp).mouseClicked(e);
         } else if(comp == this.appPanel.getRightPanel()) {
             ((RightPanel) comp).mouseClicked(e);
@@ -34,7 +34,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         Component comp = SwingUtilities.getDeepestComponentAt(this.appPanel, e.getX(), e.getY());
         this.appPanel.setFocusedElement((JPanel)comp);
-        if(comp == this.appPanel.getCanvasPanel()) {
+        if(comp == this.appPanel.getMiddlePanel().getCanvasPanel()) {
             ((CanvasPanel) comp).mousePressed(e);
         } else if(comp == this.appPanel.getRightPanel()) {
             ((RightPanel) comp).mousePressed(e);
@@ -45,7 +45,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         Component comp = SwingUtilities.getDeepestComponentAt(this.appPanel, e.getX(), e.getY());
-        if(comp == this.appPanel.getCanvasPanel()) {
+        if(comp == this.appPanel.getMiddlePanel().getCanvasPanel()) {
             ((CanvasPanel) comp).mouseReleased(e);
         } else if(comp == this.appPanel.getRightPanel()) {
             ((RightPanel) comp).mouseReleased(e);
@@ -66,7 +66,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mouseDragged(MouseEvent e) {
         Component comp = SwingUtilities.getDeepestComponentAt(this.appPanel, e.getX(), e.getY());
-        if(comp == this.appPanel.getCanvasPanel()) {
+        if(comp == this.appPanel.getMiddlePanel().getCanvasPanel()) {
             ((CanvasPanel) comp).mouseDragged(e);
         } else if(comp == this.appPanel.getRightPanel()) {
             ((RightPanel) comp).mouseDragged(e);

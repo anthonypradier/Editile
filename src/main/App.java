@@ -20,7 +20,8 @@ public class App {
     private void initClasses() {
         this.appPanel = new AppPanel(this);
         this.appPanel.init();
-        this.appPanel.getCanvasPanel().init();
+//        this.appPanel.getCanvasPanel().init();
+        this.appPanel.getMiddlePanel().init();
         this.appPanel.getRightPanel().init();
         this.appPanel.getRightPanel().getPropertiesPanel().init();
         this.appMenuBar = new AppMenuBar(this);

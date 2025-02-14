@@ -33,8 +33,8 @@ public class PropsMenuBar extends JMenuBar implements ActionListener {
     public void initMenuBar(final HashMap<Integer, Color> tilesType) {
         for(Integer i : tilesType.keySet()) {
             int iconSize = ICON_SIZE;
-            Color c = this.app.getAppPanel().getCanvasPanel().getTileTypes().get(i);
-            JMenuItem item = new JMenuItem(i + " ::: " + this.app.getAppPanel().getCanvasPanel().getNbOfTypes().get(c));
+            Color c = this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getTileTypes().get(i);
+            JMenuItem item = new JMenuItem(i + " ::: " + this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getNbOfTypes().get(c));
             BufferedImage image = new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB); // créer une icone pour les JMenuItem
 
             Graphics2D g2 = image.createGraphics();
@@ -72,9 +72,9 @@ public class PropsMenuBar extends JMenuBar implements ActionListener {
      */
     public void updateMenuBar(final HashMap<Integer, Color> tilesType) {
         for(Integer i : tilesType.keySet()) {
-            Color c = this.app.getAppPanel().getCanvasPanel().getTileTypes().get(i);
+            Color c = this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getTileTypes().get(i);
             JMenuItem item = this.detailsMenu.getItem(i-1);
-            item.setText(i + " ::: " + this.app.getAppPanel().getCanvasPanel().getNbOfTypes().get(c));
+            item.setText(i + " ::: " + this.app.getAppPanel().getMiddlePanel().getCanvasPanel().getNbOfTypes().get(c));
         }
     }
 }

@@ -1,6 +1,7 @@
 package main;
 
 import panels.CanvasPanel;
+import panels.MiddlePanel;
 import panels.RightPanel;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
@@ -10,7 +11,8 @@ import java.awt.*;
 
 public class AppPanel extends JPanel {
     private App app;
-    private CanvasPanel canvasPanel;
+//    private CanvasPanel canvasPanel;
+    private MiddlePanel middlePanel;
     private RightPanel rightPanel;
     private MouseInputs mouseInputs;
     private KeyboardInputs keyboardInputs;
@@ -26,12 +28,13 @@ public class AppPanel extends JPanel {
     public void init() {
         this.initClasses();
         this.build();
-        this.focusedElement = this.canvasPanel;
+//        this.focusedElement = this.canvasPanel;
         System.out.println("AppPanel created");
     }
 
     private void initClasses() {
-        this.canvasPanel = new CanvasPanel(this.app);
+//        this.canvasPanel = new CanvasPanel(this.app);
+        this.middlePanel = new MiddlePanel(this.app);
         this.rightPanel = new RightPanel(this.app);
         this.mouseInputs = new MouseInputs(this);
         this.keyboardInputs = new KeyboardInputs(this);
@@ -39,7 +42,8 @@ public class AppPanel extends JPanel {
 
     private void build() {
         this.setLayout(new BorderLayout());
-        this.add(this.canvasPanel, BorderLayout.CENTER);
+//        this.add(this.canvasPanel, BorderLayout.CENTER);
+        this.add(this.middlePanel, BorderLayout.CENTER);
         this.add(this.rightPanel, BorderLayout.EAST);
         this.addMouseListener(this.mouseInputs);
         this.addMouseMotionListener(this.mouseInputs);
@@ -49,7 +53,7 @@ public class AppPanel extends JPanel {
     @Override
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        this.canvasPanel.repaint();
+        this.middlePanel.repaint();
         this.rightPanel.repaint();
     }
 
@@ -62,11 +66,15 @@ public class AppPanel extends JPanel {
         System.out.println("Focus set to " + p.getName());
     }
 
-    public CanvasPanel getCanvasPanel() {
-        return this.canvasPanel;
-    }
+//    public CanvasPanel getCanvasPanel() {
+//        return this.canvasPanel;
+//    }
 
     public RightPanel getRightPanel () {
         return this.rightPanel;
+    }
+
+    public MiddlePanel getMiddlePanel () {
+        return this.middlePanel;
     }
 }
