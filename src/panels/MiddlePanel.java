@@ -18,16 +18,16 @@ public class MiddlePanel extends JPanel {
 
     public void init() {
         this.canvasPanel = new CanvasPanel(this.app);
-        this.toolsPanel = new ToolsPanel(this.app);
         this.tilesPanel = new TilesPanel(this.app);
-        this.build();
+        this.toolsPanel = new ToolsPanel(this.app);
         this.canvasPanel.init();
+        this.build();
     }
 
     private void build() {
         this.setLayout(new BorderLayout());
-        this.add(this.canvasPanel, BorderLayout.CENTER);
         this.add(this.toolsPanel, BorderLayout.NORTH);
+        this.add(this.canvasPanel, BorderLayout.CENTER);
         this.add(this.tilesPanel, BorderLayout.SOUTH);
     }
 

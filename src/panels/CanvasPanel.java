@@ -23,6 +23,10 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 
     private HashMap<Integer, Color> tileTypes;
     private HashMap<Color, Integer> nbOfType;
+
+    /**
+     * Index of the selected tile
+     */
     private int tileValue = 1;
 
     public CanvasPanel(final App app) {
@@ -158,9 +162,13 @@ public class CanvasPanel extends JPanel implements InputsMethods {
     }
 
     public void addTile(final int x, final int y) {
-        if(this.tileMap.getTile(x, y) != this.tileValue) {
+        int currentTile = this.tileMap.getTile(x, y);
+        if(currentTile != this.tileValue) {
             this.tileMap.setTile(this.tileValue, x, y);
             this.nbOfType.replace(this.tileTypes.get(this.tileValue), this.nbOfType.get(this.tileTypes.get(this.tileValue)) + 1);
+            if(currentTile != 0) {
+                this.nbOfType.replace(this.tileTypes.get(currentTile), this.nbOfType.get(this.tileTypes.get(currentTile)) - 1);
+            }
         }
     }
 
@@ -176,8 +184,11 @@ public class CanvasPanel extends JPanel implements InputsMethods {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(this.tileMap != null) {
-            int xPos = e.getX() / App.TILE_SIZE;
-            int yPos = e.getY() / App.TILE_SIZE;
+//            int xPos = e.getX() / App.TILE_SIZE;
+//            int yPos = e.getY() / App.TILE_SIZE;
+            Point p = SwingUtilities.convertPoint(e.getComponent(), e.getPoint(), this); // calcule les coordonnées par rapport à la source en paramètre 1
+            int xPos = p.x / App.TILE_SIZE; // résoud partiellement le problème, de manière pas très propre
+            int yPos = p.y / App.TILE_SIZE;
 
             switch (e.getButton()) {
                 case MouseEvent.BUTTON1:
@@ -209,8 +220,12 @@ public class CanvasPanel extends JPanel implements InputsMethods {
     @Override
     public void mouseDragged(MouseEvent e) {
         if(this.tileMap != null) {
-            int xPos = e.getX() / App.TILE_SIZE;
-            int yPos = e.getY() / App.TILE_SIZE;
+//            int xPos = e.getX() / App.TILE_SIZE;
+//            int yPos = e.getY() / App.TILE_SIZE;
+            Point p = SwingUtilities.convertPoint(e.getComponent(), e.getPoint(), this); // calcule les coordonnées par rapport à la source en paramètre 1
+            int xPos = p.x / App.TILE_SIZE; // résoud partiellement le problème, de manière pas très propre
+            int yPos = p.y / App.TILE_SIZE;
+
 
             switch (this.lastButtonPressed) {
                 case MouseEvent.BUTTON1:
