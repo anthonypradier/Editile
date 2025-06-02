@@ -19,7 +19,7 @@ public class MiddlePanel extends JPanel {
     public void init() {
         this.canvasPanel = new CanvasPanel(this.app);
         this.tilesPanel = new TilesPanel(this.app);
-        this.toolsPanel = new ToolsPanel(this.app);
+        this.toolsPanel = new ToolsPanel(this.app, this.canvasPanel);
         this.canvasPanel.init();
         this.build();
     }
@@ -39,5 +39,9 @@ public class MiddlePanel extends JPanel {
 
     public CanvasPanel getCanvasPanel() {
         return this.canvasPanel;
+    }
+
+    public ToolsPanel getToolsPanel() {
+        return this.toolsPanel;
     }
 }

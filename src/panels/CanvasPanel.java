@@ -24,6 +24,8 @@ public class CanvasPanel extends JPanel implements InputsMethods {
     private HashMap<Integer, Color> tileTypes;
     private HashMap<Color, Integer> nbOfType;
 
+    private String currentTool;
+
     /**
      * Index of the selected tile
      */
@@ -54,6 +56,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         this.createMap();
         this.resetNbOfType();
 //        this.app.getAppPanel().getRightPanel().getPropertiesPanel().initProperties();
+        this.currentTool = "pen";
 
         System.out.println("CanvasPanel created");
     }
@@ -103,7 +106,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
     }
 
     /**
-     * Cleat the map
+     * Clear the map
      */
     public void clearMap() {
         this.tileMap.clearMap();
@@ -161,10 +164,16 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         }
     }
 
+    /**
+     * Change the value of the tile in position x and y with the current value of the tile
+     * @param x
+     * @param y
+     */
     public void addTile(final int x, final int y) {
         int currentTile = this.tileMap.getTile(x, y);
         if(currentTile != this.tileValue) {
             this.tileMap.setTile(this.tileValue, x, y);
+            //TODO: créer une méthode updateNbTiles qui est appelée uniquement lorsque la souris est relachée. Compter le nombre de tuiles dessinées et effacées
             this.nbOfType.replace(this.tileTypes.get(this.tileValue), this.nbOfType.get(this.tileTypes.get(this.tileValue)) + 1);
             if(currentTile != 0) {
                 this.nbOfType.replace(this.tileTypes.get(currentTile), this.nbOfType.get(this.tileTypes.get(currentTile)) - 1);
@@ -172,6 +181,11 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         }
     }
 
+    /**
+     * Remove the value of the tile at the x and y position
+     * @param x
+     * @param y
+     */
     public void removeTile(final int x, final int y) {
         if(this.tileMap.getTile(x, y) != 0) {
             if(this.nbOfType.get(this.tileTypes.get(this.tileValue)) - 1 >= 0) {
@@ -192,7 +206,14 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 
             switch (e.getButton()) {
                 case MouseEvent.BUTTON1:
-                    this.addTile(xPos, yPos);
+                    switch (this.currentTool) {
+                        case "pen":
+                            this.addTile(xPos, yPos);
+                            break;
+                        case "rubber":
+                            this.removeTile(xPos, yPos);
+                            break;
+                    }
                     break;
                 case MouseEvent.BUTTON3:
                     this.removeTile(xPos, yPos);
@@ -229,7 +250,14 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 
             switch (this.lastButtonPressed) {
                 case MouseEvent.BUTTON1:
-                    this.addTile(xPos, yPos);
+                    switch (this.currentTool) {
+                        case "pen":
+                            this.addTile(xPos, yPos);
+                            break;
+                        case "rubber":
+                            this.removeTile(xPos, yPos);
+                            break;
+                    }
                     break;
                 case MouseEvent.BUTTON3:
                     this.removeTile(xPos, yPos);
@@ -251,6 +279,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                     this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuBars();
                 }
                 break;
+            // Change the tile
             case KeyEvent.VK_1:
                 this.tileValue = 1;
                 this.setCurrentColor(Color.red);
@@ -266,6 +295,14 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                 this.setCurrentColor(Color.green);
                 System.out.println("Color changed to green");
                 break;
+            // Change the tool
+            case KeyEvent.VK_B:
+                this.setTool("pe");
+                break;
+            case KeyEvent.VK_E:
+                this.setTool("rubber");
+                break;
+            // System shortcut
             case KeyEvent.VK_N:
                 this.createMap();
                 this.resetNbOfType();
@@ -326,5 +363,18 @@ public class CanvasPanel extends JPanel implements InputsMethods {
 
     public void setCurrentColor(final Color c) {
         this.currentColor = c;
+    }
+
+    public String getCurrentTool() {
+        return this.currentTool;
+    }
+
+    public void setTool(final String tool) {
+        if(!this.app.getAppPanel().getMiddlePanel().getToolsPanel().getTools().contains(tool)) {
+            System.out.println("Error while changing the tool... It is not in the tool list");
+            return;
+        }
+        this.currentTool = tool;
+        System.out.println("Tool changed to " + tool);
     }
 }
