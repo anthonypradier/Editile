@@ -1,31 +1,25 @@
 package panels;
 
 import main.App;
+import tools.Tools;
 import utilz.Constants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
-import static utilz.Constants.Tools.*;
+//import static utilz.Constants.Tools.*;
 
 public class ToolsPanel extends JPanel {
     private App app;
     private CanvasPanel canvas;
     private JPanel btnsPanel;
-    private HashMap<String, ToolButton> buttonsMap;
-    private final Integer[] toolNames = {PEN, RUBBER};
-    //TODO: changer la arraylist, hashmap par un enum. voir chatgpt
-    public ArrayList<Integer> tools = new ArrayList<Integer>();
+    private EnumMap<Tools, ToolButton> buttonsEnumMap;
 
     public ToolsPanel(final App app, final CanvasPanel canvas) {
         super();
         this.app = app;
         this.canvas = canvas;
-        this.buttonsMap = new HashMap<String, ToolButton>();
         this.btnsPanel = new JPanel();
         this.initTools();
         this.initButtons();
@@ -39,27 +33,25 @@ public class ToolsPanel extends JPanel {
         this.setBackground(Color.orange);
         this.setLayout(new GridLayout());
 
-        for(int btnName : this.tools) {
-            this.add(this.buttonsMap.get(btnName));
+        for(Tools tool : Tools.values()) {
+            this.add(this.buttonsEnumMap.get(tool));
         }
 
     }
 
     private void initTools() {
-        this.tools.addAll(Arrays.asList(this.toolNames));
+        this.buttonsEnumMap = new EnumMap<Tools, ToolButton>(Tools.class);
     }
 
     private void initButtons() {
-        for(int btnName : this.tools) {
-            this.buttonsMap.put(btnName, new ToolButton(btnName, this.canvas));
+        for (Tools tool : Tools.values()) {
+            ToolButton toolButton = new ToolButton(this.canvas, tool); // ou tool.getLabel() si tu ajoutes un champ
+            this.buttonsEnumMap.put(tool, toolButton);
         }
     }
 
-    public HashMap<String, ToolButton> getButtons() {
-        return this.buttonsMap;
+    public EnumMap<Tools, ToolButton> getButtons() {
+        return this.buttonsEnumMap;
     }
 
-    public ArrayList<Integer> getTools() {
-        return this.tools;
-    }
 }

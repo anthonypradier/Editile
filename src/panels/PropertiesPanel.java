@@ -171,4 +171,8 @@ public class PropertiesPanel extends JPanel implements InputsMethods {
         }
         System.out.println("Menu updated");
     }
+
+    public PropsMenuBar getPropsMenuBar() {
+        return this.tilesMenuBar;
+    }
 }

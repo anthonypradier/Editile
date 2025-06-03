@@ -3,6 +3,7 @@ package panels;
 import comps.InputsMethods;
 import comps.TileMap;
 import main.App;
+import tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
     private HashMap<Integer, Color> tileTypes;
     private HashMap<Color, Integer> nbOfType;
 
-    private String currentTool;
+    private Tools currentTool;
 
     /**
      * Index of the selected tile
@@ -37,8 +38,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         this.tileTypes = new HashMap<Integer, Color>();
         this.nbOfType = new HashMap<Color, Integer>();
         this.setupTiles();
-        this.resetNbOfType();
-        this.currentColor = Color.red;
+//        this.resetNbOfType();
         this.build();
 
         System.out.println("CanvasPanel created");
@@ -49,14 +49,12 @@ public class CanvasPanel extends JPanel implements InputsMethods {
      */
     public void init() {
         this.setupTiles();
-        this.resetNbOfType();
         this.currentColor = Color.red;
-        this.build();
+//        this.build();
 
         this.createMap();
-        this.resetNbOfType();
 //        this.app.getAppPanel().getRightPanel().getPropertiesPanel().initProperties();
-        this.currentTool = "pen";
+        this.currentTool = Tools.PEN;
 
         System.out.println("CanvasPanel created");
     }
@@ -102,6 +100,7 @@ public class CanvasPanel extends JPanel implements InputsMethods {
      */
     public void createMap() {
         this.tileMap = new TileMap(this.app);
+        this.resetNbOfType();
         System.out.println("Map created");
     }
 
@@ -110,6 +109,10 @@ public class CanvasPanel extends JPanel implements InputsMethods {
      */
     public void clearMap() {
         this.tileMap.clearMap();
+        this.resetNbOfType();
+        //TODO: need to repaint / update the values inside the properties panel to correspond the empty map
+        this.app.getAppPanel().getRightPanel().getPropertiesPanel().getPropsMenuBar().getMenu().repaint();
+        System.out.println("The map has been clear !");
     }
 
     @Override
@@ -207,10 +210,11 @@ public class CanvasPanel extends JPanel implements InputsMethods {
             switch (e.getButton()) {
                 case MouseEvent.BUTTON1:
                     switch (this.currentTool) {
-                        case "pen":
+                        case PEN:
+                        case RECT:
                             this.addTile(xPos, yPos);
                             break;
-                        case "rubber":
+                        case RUBBER:
                             this.removeTile(xPos, yPos);
                             break;
                     }
@@ -251,10 +255,12 @@ public class CanvasPanel extends JPanel implements InputsMethods {
             switch (this.lastButtonPressed) {
                 case MouseEvent.BUTTON1:
                     switch (this.currentTool) {
-                        case "pen":
+                        case PEN:
                             this.addTile(xPos, yPos);
                             break;
-                        case "rubber":
+                        case RECT:
+
+                        case RUBBER:
                             this.removeTile(xPos, yPos);
                             break;
                     }
@@ -275,7 +281,6 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                     System.out.println("No map to clear");
                 } else {
                     this.clearMap();
-                    this.resetNbOfType();
                     this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuBars();
                 }
                 break;
@@ -297,15 +302,17 @@ public class CanvasPanel extends JPanel implements InputsMethods {
                 break;
             // Change the tool
             case KeyEvent.VK_B:
-                this.setTool("pe");
+                this.setTool(Tools.PEN);
                 break;
             case KeyEvent.VK_E:
-                this.setTool("rubber");
+                this.setTool(Tools.RUBBER);
+                break;
+            case KeyEvent.VK_R:
+                this.setTool(Tools.RECT);
                 break;
             // System shortcut
             case KeyEvent.VK_N:
                 this.createMap();
-                this.resetNbOfType();
                 this.app.getAppPanel().getRightPanel().getPropertiesPanel().initProperties();
                 this.app.getAppPanel().getRightPanel().getPropertiesPanel().updateMenuBars();
                 break;
@@ -365,15 +372,16 @@ public class CanvasPanel extends JPanel implements InputsMethods {
         this.currentColor = c;
     }
 
-    public String getCurrentTool() {
+    public Tools getCurrentTool() {
         return this.currentTool;
     }
 
-    public void setTool(final String tool) {
-        if(!this.app.getAppPanel().getMiddlePanel().getToolsPanel().getTools().contains(tool)) {
-            System.out.println("Error while changing the tool... It is not in the tool list");
-            return;
-        }
+    public void setTool(final Tools tool) {
+//        Vérifier l'existence du tool dans l'enum
+//        if() {
+//            System.out.println("Error while changing the tool... It is not in the tool list");
+//            return;
+//        }
         this.currentTool = tool;
         System.out.println("Tool changed to " + tool);
     }
